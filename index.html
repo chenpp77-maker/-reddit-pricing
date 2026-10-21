@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reddit 账号批发价目表 · 批量购买报价</title>
+<meta name="description" content="Reddit 账号批量批发价目表：按 Karma 档位与数量阶梯定价，数量越多单价越低。含快速报价计算器、质保换号服务，Telegram 快速下单。">
+<meta name="theme-color" content="#060708">
+<meta property="og:title" content="Reddit 账号批发价目表">
+<meta property="og:description" content="数量越多单价越低 · 快速报价计算器 · 质保换号服务">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="reddit-logo-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* ===== 黑白 (dark) theme tokens — white-on-black, reference outlined letter ===== */
+  :root{
+    --bg:#060708;
+    --surface:#0e1013;
+    --surface-2:#15181c;
+    --surface-3:#1d2126;
+    --border:rgba(255,255,255,.10);
+    --border-strong:rgba(255,255,255,.24);
+    --text:#f4f5f7;
+    --muted:#9aa0a8;
+    --dim:#6b7178;
+    --accent:#ffffff;
+    --accent-2:#e6e8ec;
+    --accent-soft:rgba(255,255,255,.14);
+    --accent-glow:rgba(255,255,255,.30);
+    --on-accent:#0a0b0d;
+    --glow-a:rgba(255,255,255,.16);
+    --glow-b:rgba(255,255,255,.10);
+    --radius:16px;
+    --shadow:0 6px 20px rgba(0,0,0,.12);
+    --shadow-lg:0 16px 40px rgba(0,0,0,.45);
+  }
+  /* ===== 白黑 (light) theme override — white bg, black text ===== */
+  html.light{
+    --bg:#f7f7f8;
+    --surface:#ffffff;
+    --surface-2:#f1f2f4;
+    --surface-3:#e8eaed;
+    --border:rgba(0,0,0,.10);
+    --border-strong:rgba(0,0,0,.22);
+    --text:#0b0c0e;
+    --muted:#5c6167;
+    --dim:#8b9096;
+    --accent:#0b0c0e;
+    --accent-2:#2a2d31;
+    --accent-soft:rgba(0,0,0,.06);
+    --accent-glow:rgba(0,0,0,.18);
+    --on-accent:#ffffff;
+    --glow-a:rgba(0,0,0,.05);
+    --glow-b:rgba(0,0,0,.04);
+    --shadow:0 6px 20px rgba(0,0,0,.08);
+    --shadow-lg:0 16px 40px rgba(0,0,0,.14);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Space Grotesk','Noto Sans SC',system-ui,sans-serif;
+    line-height:1.5;
+    padding:32px 16px 48px;
+    display:flex;justify-content:center;
+    min-height:100vh;
+    transition:background .35s ease,color .35s ease;
+    background-image:
+      radial-gradient(circle at 15% -10%, var(--glow-a) 0%, transparent 40%),
+      radial-gradient(circle at 85% 110%, var(--glow-b) 0%, transparent 45%);
+    background-attachment:fixed;
+  }
+  .wrap{width:100%;max-width:680px}
+
+  /* ---------- Language switcher ---------- */
+  .lang-switch{
+    position:fixed;top:18px;right:18px;z-index:50;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:999px;padding:5px;box-shadow:0 6px 20px rgba(0,0,0,.12);
+  }
+  .lang-btn{
+    position:relative;display:flex;align-items:center;gap:6px;
+    border:none;background:transparent;color:var(--muted);cursor:pointer;
+    font-family:inherit;font-size:12px;font-weight:600;padding:6px 12px;border-radius:999px;
+    transition:all .2s ease;white-space:nowrap;
+  }
+  .lang-btn svg{width:15px;height:15px}
+  .lang-btn.active{background:var(--accent);color:var(--on-accent)}
+  .lang-btn:not(.active):hover{color:var(--text)}
+  .lang-menu{
+    position:absolute;top:calc(100% + 8px);right:0;
+    background:var(--surface);border:1px solid var(--border-strong);
+    border-radius:12px;padding:6px;min-width:150px;
+    box-shadow:0 12px 30px rgba(0,0,0,.35);
+    display:none;flex-direction:column;gap:2px;
+  }
+  .lang-switch.open .lang-menu{display:flex}
+  .lang-menu button{
+    border:none;background:transparent;color:var(--text);cursor:pointer;
+    font-family:inherit;font-size:13px;font-weight:500;padding:9px 12px;border-radius:8px;
+    display:flex;align-items:center;gap:9px;text-align:left;transition:background .15s ease;
+  }
+  .lang-menu button:hover{background:var(--surface-3)}
+  .lang-menu button.active{background:var(--accent-soft);color:var(--accent)}
+  .lang-menu .flag{width:18px;height:18px;flex-shrink:0;border-radius:3px}
+  .lang-caret{width:12px;height:12px;transition:transform .2s ease}
+  .lang-switch.open .lang-caret{transform:rotate(180deg)}
+
+  /* ---------- Header ---------- */
+  .head{text-align:center;margin-bottom:32px;animation:fade .6s ease both}
+  .badge{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--accent-soft);color:var(--accent);
+    border:1px solid var(--accent);
+    opacity:.9;padding:6px 14px;border-radius:999px;
+    font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+    margin-bottom:18px;
+  }
+  .badge svg{width:14px;height:14px}
+  .head-row{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap}
+  .r-logo{width:64px;height:64px;flex-shrink:0}
+  .r-logo img{width:100%;height:100%;display:block;object-fit:contain;border-radius:14px}
+  @keyframes rIn{from{opacity:0;transform:translateY(-26px) scale(.5) rotate(-12deg)}to{opacity:1;transform:none}}
+  @keyframes rBob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-6px) rotate(2deg)}}
+  .head-text{text-align:left}
+  .head h1{font-size:34px;font-weight:700;letter-spacing:-.02em;line-height:1.15}
+  .head h1 span{color:var(--accent)}
+  .head p.sub{color:var(--muted);font-size:15px;margin-top:10px;max-width:460px}
+
+  /* ---------- Feature pills ---------- */
+  .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:36px;animation:fade .6s .1s ease both}
+  .feat{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px}
+  .feat .label{color:var(--dim);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;gap:6px}
+  .feat .val{color:var(--text);font-size:15px;font-weight:600;margin-top:6px}
+  .feat svg{width:14px;height:14px;color:var(--accent)}
+
+  /* ---------- Calculator ---------- */
+  .calc{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--radius);padding:22px;margin-bottom:36px;
+    animation:fade .6s .15s ease both;
+  }
+  .calc h2{font-size:16px;font-weight:700;display:flex;align-items:center;gap:9px;margin-bottom:4px}
+  .calc h2 svg{width:18px;height:18px;color:var(--accent)}
+  .calc .calc-sub{color:var(--muted);font-size:12.5px;margin-bottom:18px}
+  .calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field label{font-size:11px;font-weight:600;color:var(--dim);letter-spacing:.04em;text-transform:uppercase}
+  .field select,.field input{
+    background:var(--surface-3);border:1px solid var(--border-strong);color:var(--text);
+    border-radius:10px;padding:12px 14px;font-family:inherit;font-size:15px;font-weight:600;
+    width:100%;appearance:none;outline:none;transition:border-color .2s ease,box-shadow .2s ease;
+  }
+  .field select{
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%239aa0a8' d='M6 8 0 0h12z'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 14px center;padding-right:34px;cursor:pointer;
+  }
+  .field input[type=number]{cursor:text}
+  .field select:focus,.field input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .calc-result{
+    margin-top:16px;border-radius:14px;padding:18px;
+    background:linear-gradient(135deg,var(--accent-soft),transparent 70%);
+    border:1px solid var(--accent);
+  }
+  .calc-result .cr-label{font-size:12px;color:var(--muted);font-weight:500}
+  .calc-result .cr-value{font-size:32px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;line-height:1.1;margin-top:4px}
+  .calc-result .cr-detail{font-size:13px;color:var(--muted);margin-top:8px;display:flex;flex-wrap:wrap;gap:6px 14px}
+  .calc-result .cr-detail b{color:var(--text);font-weight:600}
+  .calc-warn{font-size:12.5px;color:var(--accent);margin-top:10px;display:none;align-items:center;gap:6px}
+  .calc-warn.show{display:flex}
+  .calc-warn svg{width:14px;height:14px;flex-shrink:0}
+  .calc-cta{
+    margin-top:14px;display:inline-flex;align-items:center;gap:8px;
+    background:var(--accent);color:var(--on-accent);border:none;border-radius:10px;
+    padding:10px 18px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;
+    transition:transform .15s ease,box-shadow .15s ease;box-shadow:0 6px 20px var(--accent-glow);
+  }
+  .calc-cta:hover{transform:translateY(-2px)}
+  .calc-cta svg{width:16px;height:16px}
+
+  /* ---------- Section ---------- */
+  .section{margin-bottom:22px;animation:fade .6s .2s ease both}
+  .sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:12px}
+  .sec-title{font-size:18px;font-weight:700;display:flex;align-items:center;gap:10px}
+  .sec-title .karma{
+    background:linear-gradient(90deg,var(--accent),var(--accent-2));
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    font-size:20px;
+  }
+  .min-note{color:var(--muted);font-size:12px;font-weight:500;white-space:nowrap}
+
+  table{
+    width:100%;border-collapse:separate;border-spacing:0;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:var(--radius);overflow:hidden;
+  }
+  thead th{
+    background:var(--surface-2);color:var(--muted);
+    font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    text-align:left;padding:12px 18px;border-bottom:1px solid var(--border);
+  }
+  thead th:last-child{text-align:right}
+  tbody td{padding:13px 18px;font-size:14px;border-bottom:1px solid var(--border)}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:var(--surface-2)}
+  tbody tr.calc-active{background:var(--accent-soft)}
+  tbody tr.calc-active td:first-child{box-shadow:inset 3px 0 0 var(--accent)}
+  td.qty{color:var(--text);font-weight:500}
+  td.qty .hint{color:var(--dim);font-size:12px;display:block;margin-top:2px}
+  td.price{text-align:right;font-weight:700;font-size:16px;color:var(--text);font-variant-numeric:tabular-nums}
+  td.price small{color:var(--dim);font-size:11px;font-weight:500;margin-left:4px}
+  td.price .unit{color:var(--accent)}
+  .row-highlight td:first-child{border-left:3px solid var(--accent);padding-left:15px}
+  .custom{color:var(--accent)!important;font-weight:700!important;display:inline-flex;align-items:center;gap:6px}
+  .custom svg{width:13px;height:13px}
+  .single-row td{background:rgba(127,127,127,.06)}
+
+  /* ---------- Quality comparison ---------- */
+  .compare{margin-bottom:36px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;animation:fade .6s .25s ease both}
+  .compare h2{font-size:18px;font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .compare h2 svg{width:20px;height:20px;color:var(--accent)}
+  .compare .cmp-sub{color:var(--muted);font-size:13px;margin-bottom:20px}
+  .cmp-grid{display:flex;flex-direction:column;gap:14px}
+  .cmp-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:stretch}
+  .cmp-col{border-radius:14px;padding:16px;border:1px solid var(--border);background:var(--surface-2);transition:transform .2s ease,box-shadow .2s ease}
+  .cmp-col.us{background:linear-gradient(150deg,var(--accent-soft),transparent 60%);border-color:var(--accent)}
+  .cmp-col.us:hover{transform:translateY(-3px);box-shadow:0 10px 26px var(--accent-glow)}
+  .cmp-col .cmp-name{font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:12px}
+  .cmp-col.us .cmp-name{color:var(--accent)}
+  .cmp-col.them .cmp-name{color:var(--muted)}
+  .cmp-col .cmp-name .tag{font-size:10px;font-weight:700;letter-spacing:.05em;padding:2px 8px;border-radius:999px;background:var(--accent);color:var(--on-accent);text-transform:uppercase}
+  .cmp-col .cmp-name .tag.dim{background:var(--surface-3);color:var(--muted)}
+  .cmp-item{display:flex;gap:9px;align-items:flex-start;font-size:13px;padding:7px 0;border-top:1px dashed var(--border)}
+  .cmp-item:first-of-type{border-top:none}
+  .cmp-item svg{width:16px;height:16px;flex-shrink:0;margin-top:1px}
+  .cmp-col.us .cmp-item svg{color:var(--accent)}
+  .cmp-col.them .cmp-item svg{color:var(--dim)}
+  .cmp-col.us .cmp-item{color:var(--text);font-weight:500}
+  .cmp-col.them .cmp-item{color:var(--muted)}
+  .cmp-col.them .cmp-item .strike{color:var(--dim);text-decoration:line-through}
+  .cmp-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .stat{background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;transition:transform .2s ease,border-color .2s ease}
+  .stat:hover{transform:translateY(-3px);border-color:var(--accent)}
+  .stat-n{font-size:22px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;line-height:1.1}
+  .stat-l{font-size:11.5px;color:var(--muted);margin-top:6px;font-weight:500}
+
+  /* ---------- Warranty ---------- */
+  .warranty{margin-top:36px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;animation:fade .6s .3s ease both}
+  .warranty h2{font-size:17px;font-weight:700;display:flex;align-items:center;gap:9px;margin-bottom:6px}
+  .warranty h2 svg{width:18px;height:18px;color:var(--accent)}
+  .warranty .intro{color:var(--muted);font-size:13px;margin-bottom:16px}
+  .wlist{list-style:none;display:flex;flex-direction:column;gap:10px}
+  .wlist li{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:var(--text)}
+  .wlist li svg{width:17px;height:17px;color:var(--accent);flex-shrink:0;margin-top:1px}
+  .wlist li .paren{color:var(--dim);font-size:12.5px}
+
+  /* ---------- Footer ---------- */
+  .foot{margin-top:26px;display:flex;flex-direction:column;gap:14px;animation:fade .6s .4s ease both}
+  .tips{background:var(--surface-3);border:1px solid var(--border);border-radius:14px;padding:16px 18px}
+  .tips h3{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+  .tips h3 svg{width:15px;height:15px}
+  .tips ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+  .tips li{font-size:13px;color:var(--muted);display:flex;gap:9px;align-items:flex-start}
+  .tips li svg{width:15px;height:15px;color:var(--accent);flex-shrink:0;margin-top:2px}
+  .contact{
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    background:linear-gradient(90deg,var(--accent),var(--accent-2));
+    border-radius:14px;padding:16px;font-weight:700;font-size:16px;
+    box-shadow:0 8px 28px var(--accent-glow);text-decoration:none;color:var(--on-accent);
+    transition:transform .15s ease,box-shadow .15s ease;
+  }
+  .contact:hover{transform:translateY(-2px);box-shadow:0 12px 34px var(--accent-glow)}
+  .contact svg{width:20px;height:20px}
+  .contact small{font-weight:500;opacity:.9;font-size:12px}
+  .note{color:var(--dim);font-size:11.5px;text-align:center}
+
+  /* ---------- Telegram floating ball ---------- */
+  .tg-fab{
+    position:fixed;right:22px;bottom:22px;z-index:60;
+    width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;
+    background:rgba(255,255,255,.07);
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    border:1px solid rgba(255,255,255,.16);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 4px 16px rgba(0,0,0,.25);
+    transition:transform .2s ease,box-shadow .2s ease,background .2s ease;
+  }
+  .tg-fab:hover{transform:translateY(-3px) scale(1.05);background:rgba(255,255,255,.22);box-shadow:0 10px 26px rgba(255,255,255,.35)}
+  .tg-fab svg{width:30px;height:30px;color:#fff}
+  .tg-fab::before{
+    content:'';position:absolute;inset:0;border-radius:50%;
+    background:rgba(255,255,255,.5);z-index:-1;
+    animation:fabPulse 2.4s ease-out infinite;
+  }
+  @keyframes fabPulse{0%{transform:scale(1);opacity:.6}70%{transform:scale(1.7);opacity:0}100%{opacity:0}}
+
+  .tg-pop{
+    position:fixed;right:22px;bottom:90px;z-index:60;
+    background:var(--surface);border:1px solid var(--border-strong);
+    border-radius:16px;padding:20px;max-width:280px;
+    box-shadow:0 16px 40px rgba(0,0,0,.45);
+    opacity:0;transform:translateY(10px) scale(.96);pointer-events:none;
+    transition:opacity .22s ease,transform .22s ease;
+  }
+  .tg-pop.show{opacity:1;transform:none;pointer-events:auto}
+  .tg-pop .tg-pop-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  .tg-pop .tg-ava{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#e6e8ec,#ffffff);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .tg-pop .tg-ava svg{width:24px;height:24px;color:#fff}
+  .tg-pop .tg-pop-title{font-size:15px;font-weight:700}
+  .tg-pop .tg-pop-sub{font-size:12.5px;color:var(--muted);margin-top:2px}
+  .tg-pop .tg-pop-handle{font-size:13px;color:var(--accent);font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:7px}
+  .tg-pop .tg-pop-handle svg{width:15px;height:15px}
+  .tg-pop .tg-pop-btn{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    background:linear-gradient(90deg,#e6e8ec,#ffffff);color:#fff;border:none;border-radius:10px;
+    padding:12px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none;
+    transition:transform .15s ease,box-shadow .15s ease;box-shadow:0 6px 18px rgba(0,0,0,.30);
+  }
+  .tg-pop .tg-pop-btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.40)}
+  .tg-pop .tg-pop-btn svg{width:18px;height:18px}
+  .tg-pop .tg-pop-close{position:absolute;top:10px;right:12px;background:none;border:none;color:var(--dim);cursor:pointer;font-size:18px;line-height:1;padding:4px}
+  .tg-pop .tg-pop-close:hover{color:var(--text)}
+
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+  /* ===== Green-style motion ===== */
+  .orb{position:fixed;border-radius:50%;filter:blur(70px);opacity:.5;pointer-events:none;z-index:0;animation:orbFloat 16s ease-in-out infinite}
+  .orb.a{width:420px;height:420px;background:radial-gradient(circle,rgba(255,255,255,.20),transparent 65%);top:-120px;left:-120px}
+  .orb.b{width:380px;height:380px;background:radial-gradient(circle,rgba(255,255,255,.18),transparent 65%);bottom:-140px;right:-100px;animation-delay:-8s}
+  @keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,30px) scale(1.12)}}
+  body::after{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
+  .wrap{position:relative;z-index:2}
+  .lang-switch,.tg-fab,.tg-pop{z-index:60}
+
+  .feat{position:relative;overflow:hidden;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+  .feat::before{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.10) 50%,transparent 70%);transform:translateX(-120%);transition:transform .6s ease}
+  .feat:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.5);box-shadow:0 10px 26px rgba(255,255,255,.18)}
+  .feat:hover::before{transform:translateX(120%)}
+  .feat:hover svg{transform:scale(1.15) rotate(-6deg)}
+  .feat svg{transition:transform .25s ease}
+  .features .feat{animation:fade .55s ease both}
+  .features .feat:nth-child(1){animation-delay:.10s}
+  .features .feat:nth-child(2){animation-delay:.16s}
+  .features .feat:nth-child(3){animation-delay:.22s}
+  .features .feat:nth-child(4){animation-delay:.28s}
+  .features .feat:nth-child(5){animation-delay:.34s}
+
+  tbody tr{transition:background .18s ease,transform .18s ease}
+  tbody tr:hover{transform:translateX(3px)}
+  tbody tr:hover td:first-child{box-shadow:inset 3px 0 0 rgba(255,255,255,.8)}
+  tbody tr{animation:rowIn .4s ease both}
+  @keyframes rowIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
+  tbody tr:nth-child(1){animation-delay:.05s}tbody tr:nth-child(2){animation-delay:.10s}
+  tbody tr:nth-child(3){animation-delay:.15s}tbody tr:nth-child(4){animation-delay:.20s}
+  tbody tr:nth-child(5){animation-delay:.25s}tbody tr:nth-child(6){animation-delay:.30s}
+  tbody tr:nth-child(7){animation-delay:.35s}tbody tr:nth-child(8){animation-delay:.40s}
+  .karma{position:relative;display:inline-block}
+  .karma::after{content:'';position:absolute;left:0;bottom:-4px;height:3px;width:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:2px;transform:scaleX(0);transform-origin:left;animation:underline .7s .5s ease forwards}
+  @keyframes underline{to{transform:scaleX(1)}}
+
+  .calc-result{transition:box-shadow .3s ease}
+  .calc-result.pop{animation:pop .35s ease}
+  @keyframes pop{0%{transform:scale(.97)}60%{transform:scale(1.015)}100%{transform:scale(1)}}
+  .contact{position:relative;overflow:hidden}
+  .contact::after{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent 35%,rgba(255,255,255,.35) 50%,transparent 65%);transform:translateX(-130%);animation:shimmer 3.5s 1.2s ease-in-out infinite}
+  @keyframes shimmer{0%,55%{transform:translateX(-130%)}85%,100%{transform:translateX(130%)}}
+
+  @media(prefers-reduced-motion:reduce){
+    .orb,.r-logo svg,.contact::after{animation:none}
+    .karma::after{animation:none;transform:scaleX(1)}
+    html{scroll-behavior:auto}
+  }
+
+  /* ---------- Theme toggle + back-to-top ---------- */
+  .top-actions{position:fixed;top:18px;left:18px;z-index:60;display:flex;flex-direction:column;gap:10px;align-items:center}
+  .icon-fab{
+    width:42px;height:42px;border-radius:50%;cursor:pointer;
+    background:var(--surface);border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;color:var(--muted);
+    box-shadow:var(--shadow);transition:all .2s ease;
+  }
+  .icon-fab:hover{color:var(--accent);border-color:var(--accent);transform:translateY(-2px)}
+  .icon-fab svg{width:19px;height:19px}
+  .top-actions .to-top{opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .25s ease,transform .25s ease,background .2s ease,border-color .2s ease,color .2s ease}
+  .top-actions .to-top.show{opacity:1;pointer-events:auto;transform:none}
+
+  html.light .lang-btn.active{background:var(--accent);color:var(--on-accent)}
+  html.light .tg-fab{background:rgba(255,255,255,.85);border-color:rgba(0,0,0,.12)}
+  html.light .tg-fab:hover{background:rgba(0,0,0,.08);box-shadow:0 10px 26px rgba(0,0,0,.18)}
+
+  html.light .lang-switch{box-shadow:var(--shadow)}
+  html.light .tg-pop{box-shadow:var(--shadow-lg)}
+
+  @media(max-width:520px){
+    body{padding:24px 12px 40px}
+    .head-row{flex-direction:column;gap:12px}
+    .r-logo{width:48px;height:48px}
+    .head-text{text-align:center}
+    .head h1{font-size:26px}
+    .sec-title .karma{font-size:17px}
+    .calc-grid{grid-template-columns:1fr}
+    .calc-result .cr-value{font-size:26px}
+    thead th,tbody td{padding:11px 14px}
+    td.price{font-size:14px}
+    .contact{font-size:15px;flex-wrap:wrap}
+    .lang-switch{top:12px;right:12px}
+    .tg-pop{right:16px;left:16px;max-width:none;bottom:88px}
+    .cmp-grid{grid-template-columns:1fr}
+    .cmp-row{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== Language switcher ===== -->
+<div class="lang-switch" id="langSwitch">
+  <button class="lang-btn active" id="langBtn" aria-haspopup="true">
+    <span id="langFlag"></span>
+    <span id="langLabel">中文</span>
+    <svg class="lang-caret" viewBox="0 0 12 8" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 1l5 5 5-5"/></svg>
+  </button>
+  <div class="lang-menu" id="langMenu"></div>
+</div>
+
+<!-- ===== Theme toggle + back to top ===== -->
+<div class="top-actions">
+  <button class="icon-fab" id="themeBtn" aria-label="切换主题">
+    <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+  </button>
+  <button class="icon-fab to-top" id="toTop" aria-label="回到顶部">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+</div>
+
+<div class="wrap">
+
+  <!-- ===== Green glow orbs ===== -->
+  <div class="orb a"></div>
+  <div class="orb b"></div>
+
+  <!-- ===== Header ===== -->
+  <div class="head">
+    <div class="head-row">
+      <div class="r-logo" aria-hidden="true">
+        <img src="reddit-logo-dark.png" alt="Reddit">
+      </div>
+      <div class="head-text">
+        <h1><span data-i18n="title1">Reddit</span> <span data-i18n="title2">账号</span> <span data-i18n="title3">批量购买价目</span></h1>
+        <p class="sub" data-i18n="subtitle">数量越多单价越低 · 面向批量采购客户，小额订单按高价计</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Account Specs ===== -->
+  <div class="features">
+    <div class="feat">
+      <div class="label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><span data-i18n="f_age">账户年龄</span></div>
+      <div class="val" data-i18n="f_age_v">1 – 15 年</div>
+    </div>
+    <div class="feat">
+      <div class="label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3a15 15 0 0 0 0 18M3.5 9h17M3.5 15h17"/></svg><span data-i18n="f_region">地区</span></div>
+      <div class="val" data-i18n="f_region_v">全球 · Global</div>
+    </div>
+    <div class="feat">
+      <div class="label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span data-i18n="f_gender">性别</span></div>
+      <div class="val" data-i18n="f_gender_v">男女混合</div>
+    </div>
+    <div class="feat">
+      <div class="label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/></svg><span data-i18n="f_email">邮箱状态</span></div>
+      <div class="val" data-i18n="f_email_v">已绑定 · 可更换</div>
+    </div>
+    <div class="feat">
+      <div class="label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M7 20h10M9 16v4M15 16v4"/></svg><span data-i18n="f_type">账户类型</span></div>
+      <div class="val" data-i18n="f_type_v">3C · Ai · Web3 · OFM</div>
+    </div>
+  </div>
+
+  <!-- ===== Calculator ===== -->
+  <div class="calc" id="calc">
+    <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01M8 19h.01M12 19h.01M16 19h.01"/></svg><span data-i18n="calc_title">快速报价计算器</span></h2>
+    <p class="calc-sub" data-i18n="calc_sub">选择 Karma 档位与购买数量，自动按对应单价计算总价</p>
+    <div class="calc-grid">
+      <div class="field">
+        <label for="calc-karma" data-i18n="calc_karma">Karma 档位</label>
+        <select id="calc-karma">
+          <option value="low">0 – 99 Karma</option>
+          <option value="mid">100 – 999 Karma</option>
+          <option value="high">1000 – 100w Karma</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="calc-qty" data-i18n="calc_qty">购买数量（个）</label>
+        <input type="number" id="calc-qty" min="1" step="1" placeholder="如 50">
+      </div>
+    </div>
+
+    <div class="calc-result" id="calc-result" hidden>
+      <div class="cr-label" data-i18n="calc_total">预估总价（USD）</div>
+      <div class="cr-value" id="cr-total">—</div>
+      <div class="cr-detail" id="cr-detail"></div>
+      <button class="calc-cta" id="calc-copy">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <span data-i18n="calc_copy">复制报价单</span>
+      </button>
+    </div>
+    <div class="calc-warn" id="calc-warn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+      <span id="calc-warn-text"></span>
+    </div>
+  </div>
+
+  <!-- ===== Quality comparison ===== -->
+  <div class="compare">
+    <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/><path d="m9 12 2 2 4-4"/></svg><span data-i18n="cmp_title">为什么我们的账号更耐用？</span></h2>
+    <p class="cmp-sub" data-i18n="cmp_sub">真实交付质量对比 · 拒绝"僵尸号"和"秒封号"</p>
+    <div class="cmp-grid">
+
+      <div class="cmp-row">
+        <div class="cmp-col us">
+          <div class="cmp-name"><span data-i18n="cmp_us">我们</span><span class="tag" data-i18n="cmp_us_tag">高通过率</span></div>
+          <div class="cmp-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 13 4 4L19 7"/></svg><span data-i18n="cmp_us_1">发货前逐个登录验证，账号 100% 可登录</span></div>
+          <div class="cmp-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 13 4 4L19 7"/></svg><span data-i18n="cmp_us_2">近 30 天内有真实养号记录，存活率更高</span></div>
+          <div class="cmp-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 13 4 4L19 7"/></svg><span data-i18n="cmp_us_3">邮箱已绑定且可更换，找回无风险</span></div>
+          <div class="cmp-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 13 4 4L19 7"/></svg><span data-i18n="cmp_us_4">封号 / 删除 / 无法登录，免费换号</span></div>
+        </div>
+        <div class="cmp-col them">
+          <div class="cmp-name"><span data-i18n="cmp_them">其他商家</span><span class="tag dim" data-i18n="cmp_them_tag">常见</span></div>
+          <div class="cmp-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg><span data-i18n="cmp_them_1">批量发货不验证，到手才发现封号</span></div>
+          <div class="cmp-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg><span data-i18n="cmp_them_2">长期僵尸号，无近期活跃记录</span></div>
+          <div class="cmp-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg><span data-i18n="cmp_them_3">邮箱未绑定或无法更换</span></div>
+          <div class="cmp-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg><span data-i18n="cmp_them_4">出问题找客服，换号要加钱</span></div>
+        </div>
+      </div>
+
+      <!-- stat strip -->
+      <div class="cmp-stats">
+        <div class="stat"><div class="stat-n" data-i18n="stat1_n">100%</div><div class="stat-l" data-i18n="stat1_l">发货前登录验证</div></div>
+        <div class="stat"><div class="stat-n" data-i18n="stat2_n">30 天</div><div class="stat-l" data-i18n="stat2_l">近期活跃养号记录</div></div>
+        <div class="stat"><div class="stat-n" data-i18n="stat3_n">免费</div><div class="stat-l" data-i18n="stat3_l">封号 / 删除换号</div></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== Pricing: 0–99 karma ===== -->
+  <div class="section">
+    <div class="sec-head">
+      <div class="sec-title"><span class="karma">0 – 99 Karma</span></div>
+      <span class="min-note" data-i18n="min5">最低起订 5 个</span>
+    </div>
+    <table data-tier="low">
+      <thead><tr><th data-i18n="th_qty">购买数量</th><th data-i18n="th_price">单价</th></tr></thead>
+      <tbody>
+        <tr data-min="5" data-max="10" data-price="18"><td class="qty" data-i18n="q_5_10">5 – 10 个账号</td><td class="price"><span class="unit">$</span>18<small data-i18n="per">/个</small></td></tr>
+        <tr data-min="11" data-max="20" data-price="16"><td class="qty" data-i18n="q_10_20">10 – 20 个账号</td><td class="price"><span class="unit">$</span>16<small data-i18n="per">/个</small></td></tr>
+        <tr data-min="21" data-max="50" data-price="14"><td class="qty" data-i18n="q_20_50">20 – 50 个账号</td><td class="price"><span class="unit">$</span>14<small data-i18n="per">/个</small></td></tr>
+        <tr data-min="51" data-max="100" data-price="12"><td class="qty" data-i18n="q_51_100">51 – 100 个账号</td><td class="price"><span class="unit">$</span>12<small data-i18n="per">/个</small></td></tr>
+        <tr data-min="101" data-max="200" data-price="10"><td class="qty" data-i18n="q_101_200">101 – 200 个账号</td><td class="price"><span class="unit">$</span>10<small data-i18n="per">/个</small></td></tr>
+        <tr data-min="201" data-max="500" data-price="8"><td class="qty" data-i18n="q_200_500">200 – 500 个账号</td><td class="price"><span class="unit">$</span>8<small data-i18n="per">/个</small></td></tr>
+        <tr class="row-highlight" data-custom="true"><td class="qty"><span data-i18n="q_500">500 个以上</span><span class="hint" data-i18n="q_custom_hint">按需定制</span></td><td class="price"><span class="custom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg><span data-i18n="custom_quote">定制报价</span></span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===== Pricing: 100–999 karma ===== -->
+  <div class="section">
+    <div class="sec-head">
+      <div class="sec-title"><span class="karma">100 – 999 Karma</span></div>
+      <span class="min-note" data-i18n="min_single">可单个购买</span>
+    </div>
+    <table data-tier="mid">
+      <thead><tr><th data-i18n="th_qty">购买数量</th><th data-i18n="th_price">单价</th></tr></thead>
+      <tbody>
+        <tr class="single-row" data-min="1" data-max="1" data-price="30"><td class="qty"><span data-i18n="q_1">1 个账号</span><span class="hint" data-i18n="q_single_hint">单笔购买</span></td><td class="price"><span class="unit">$</span>30<small data-i18n="per">/个</small></td></tr>
+        <tr data-min="2" data-max="10" data-price="26"><td class="qty" data-i18n="q_5_10">5 – 10 个账号</td><td class="price"><span class="unit">$</span>26<small data-i18n="per">/个</small></td></tr>
+        <tr data-min="11" data-max="20" data-price="24"><td class="qty" data-i18n="q_10_20">10 – 20 个账号</td><td class="price"><span class="unit">$</span>24<small data-i18n="per">/个</small></td></tr>
+        <tr data-min="21" data-max="50" data-price="22"><td class="qty" data-i18n="q_20_50">20 – 50 个账号</td><td class="price"><span class="unit">$</span>22<small data-i18n="per">/个</small></td></tr>
+        <tr data-min="51" data-max="100" data-price="20"><td class="qty" data-i18n="q_51_100">51 – 100 个账号</td><td class="price"><span class="unit">$</span>20<small data-i18n="per">/个</small></td></tr>
+        <tr data-min="101" data-max="200" data-price="18"><td class="qty" data-i18n="q_101_200">101 – 200 个账号</td><td class="price"><span class="unit">$</span>18<small data-i18n="per">/个</small></td></tr>
+        <tr data-min="201" data-max="500" data-price="16"><td class="qty" data-i18n="q_200_500">200 – 500 个账号</td><td class="price"><span class="unit">$</span>16<small data-i18n="per">/个</small></td></tr>
+        <tr class="row-highlight" data-custom="true"><td class="qty"><span data-i18n="q_500">500 个以上</span><span class="hint" data-i18n="q_custom_hint">按需定制</span></td><td class="price"><span class="custom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg><span data-i18n="custom_quote">定制报价</span></span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===== Pricing: 1000–100w karma ===== -->
+  <div class="section">
+    <div class="sec-head">
+      <div class="sec-title"><span class="karma">1000 – 100w Karma</span></div>
+      <span class="min-note" data-i18n="min_high">高价值账号</span>
+    </div>
+    <table data-tier="high">
+      <thead><tr><th data-i18n="th_qty">购买数量</th><th data-i18n="th_price">单价</th></tr></thead>
+      <tbody>
+        <tr class="single-row" data-min="1" data-max="1" data-price="50"><td class="qty"><span data-i18n="q_1">1 个账号</span><span class="hint" data-i18n="q_single_hint">单笔购买</span></td><td class="price"><span class="unit">$</span>50<small data-i18n="per">/个</small></td></tr>
+        <tr data-min="2" data-max="10" data-price="47"><td class="qty" data-i18n="q_5_10">5 – 10 个账号</td><td class="price"><span class="unit">$</span>47<small data-i18n="per">/个</small></td></tr>
+        <tr data-min="11" data-max="20" data-price="45"><td class="qty" data-i18n="q_10_20">10 – 20 个账号</td><td class="price"><span class="unit">$</span>45<small data-i18n="per">/个</small></td></tr>
+        <tr data-min="21" data-max="50" data-price="43"><td class="qty" data-i18n="q_20_50">20 – 50 个账号</td><td class="price"><span class="unit">$</span>43<small data-i18n="per">/个</small></td></tr>
+        <tr data-min="51" data-max="100" data-price="41"><td class="qty" data-i18n="q_51_100">51 – 100 个账号</td><td class="price"><span class="unit">$</span>41<small data-i18n="per">/个</small></td></tr>
+        <tr data-min="101" data-max="200" data-price="39"><td class="qty" data-i18n="q_101_200">101 – 200 个账号</td><td class="price"><span class="unit">$</span>39<small data-i18n="per">/个</small></td></tr>
+        <tr data-min="201" data-max="500" data-price="37"><td class="qty" data-i18n="q_200_500">200 – 500 个账号</td><td class="price"><span class="unit">$</span>37<small data-i18n="per">/个</small></td></tr>
+        <tr class="row-highlight" data-custom="true"><td class="qty"><span data-i18n="q_500">500 个以上</span><span class="hint" data-i18n="q_custom_hint">按需定制</span></td><td class="price"><span class="custom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg><span data-i18n="custom_quote">定制报价</span></span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===== Warranty ===== -->
+  <div class="warranty">
+    <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/><path d="m9 12 2 2 4-4"/></svg><span data-i18n="warranty_title">质保保障</span></h2>
+    <p class="intro" data-i18n="warranty_intro">若账号符合以下任一情况，我们提供<strong>免费换号服务</strong>：</p>
+    <ul class="wlist">
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+        <span data-i18n="w1">登录时账号已被封禁 / 锁定</span><span class="paren" data-i18n="w1_paren">（若使用了劣质代理，账号也可能被锁）</span>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.1 15.9M14.5 14.5 20 20M8.1 8.1 12 12"/></svg>
+        <span data-i18n="w2">账号被删除</span>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v14M2 20h20M2 10h20"/></svg>
+        <span data-i18n="w3">登录信息无法正常登录使用</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- ===== Tips + Contact ===== -->
+  <div class="foot">
+    <div class="tips">
+      <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span data-i18n="tips_title">使用须知</span></h3>
+      <ul>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 13 4 4L19 7"/></svg><span data-i18n="tips1">大多数账号近期有养号记录，使用寿命更长。</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/></svg><span data-i18n="tips2">请准备良好的 IP 配置 / 代理，以确保账号正常使用。</span></li>
+      </ul>
+    </div>
+
+    <a class="contact" href="https://t.me/reddit188" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.6 18.8 19c-.2 1-.9 1.2-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-4.9L18 6.6c.4-.3-.1-.5-.6-.2L6.9 13 2 11.5c-1-.3-1-1 .2-1.5l18.2-7c.9-.3 1.6.2 1.3 1.6z"/></svg>
+      <span><span data-i18n="contact">Telegram</span>：<b>reddit188</b> <small data-i18n="contact_sub">· 联系咨询 / 下单</small></span>
+    </a>
+
+    <p class="note" data-i18n="foot_note">价格单位均为美元 USD · 500 个以上及大批量订单请联系客服获取定制报价</p>
+  </div>
+
+</div>
+
+<!-- ===== Telegram floating ball + popup ===== -->
+<button class="tg-fab" id="tgFab" aria-label="Telegram">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.6 18.8 19c-.2 1-.9 1.2-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-4.9L18 6.6c.4-.3-.1-.5-.6-.2L6.9 13 2 11.5c-1-.3-1-1 .2-1.5l18.2-7c.9-.3 1.6.2 1.3 1.6z"/></svg>
+</button>
+<div class="tg-pop" id="tgPop">
+  <button class="tg-pop-close" id="tgPopClose" aria-label="close">&times;</button>
+  <div class="tg-pop-head">
+    <div class="tg-ava">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.6 18.8 19c-.2 1-.9 1.2-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-4.9L18 6.6c.4-.3-.1-.5-.6-.2L6.9 13 2 11.5c-1-.3-1-1 .2-1.5l18.2-7c.9-.3 1.6.2 1.3 1.6z"/></svg>
+    </div>
+    <div>
+      <div class="tg-pop-title" data-i18n="tg_title">联系我们的 Telegram</div>
+      <div class="tg-pop-sub" data-i18n="tg_sub">快速报价 · 下单 · 售后</div>
+    </div>
+  </div>
+  <div class="tg-pop-handle">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M16 6l-4-4-4 4M12 2v14"/></svg>
+    @reddit188
+  </div>
+  <a class="tg-pop-btn" href="https://t.me/reddit188" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.6 18.8 19c-.2 1-.9 1.2-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-4.9L18 6.6c.4-.3-.1-.5-.6-.2L6.9 13 2 11.5c-1-.3-1-1 .2-1.5l18.2-7c.9-.3 1.6.2 1.3 1.6z"/></svg>
+    <span data-i18n="tg_cta">打开 Telegram 联系我</span>
+  </a>
+</div>
+
+<script>
+/* ================= i18n ================= */
+const I18N = {
+  zh:{
+    badge:"Bulk Wholesale · 批发价目表",
+    title1:"Reddit",title2:"账号",title3:"批量购买价目",
+    subtitle:"数量越多单价越低 · 面向批量采购客户，小额订单按高价计",
+    f_age:"账户年龄",f_age_v:"1 – 15 年",
+    f_region:"地区",f_region_v:"全球 · Global",
+    f_gender:"性别",f_gender_v:"男女混合",
+    f_email:"邮箱状态",f_email_v:"已绑定 · 可更换",
+    f_type:"账户类型",f_type_v:"3C · Ai · Web3 · OFM",
+    cmp_title:"为什么我们的账号更耐用？",cmp_sub:"真实交付质量对比 · 拒绝“僵尸号”和“秒封号”",
+    cmp_us:"我们",cmp_us_tag:"高通过率",
+    cmp_us_1:"发货前逐个登录验证，账号 100% 可登录",
+    cmp_us_2:"近 30 天内有真实养号记录，存活率更高",
+    cmp_us_3:"邮箱已绑定且可更换，找回无风险",
+    cmp_us_4:"封号 / 删除 / 无法登录，免费换号",
+    cmp_them:"其他商家",cmp_them_tag:"常见",
+    cmp_them_1:"批量发货不验证，到手才发现封号",
+    cmp_them_2:"长期僵尸号，无近期活跃记录",
+    cmp_them_3:"邮箱未绑定或无法更换",
+    cmp_them_4:"出问题找客服，换号要加钱",
+    stat1_n:"100%",stat1_l:"发货前登录验证",
+    stat2_n:"30 天",stat2_l:"近期活跃养号记录",
+    stat3_n:"免费",stat3_l:"封号 / 删除换号",
+    calc_title:"快速报价计算器",
+    calc_sub:"选择 Karma 档位与购买数量，自动按对应单价计算总价",
+    calc_karma:"Karma 档位",calc_qty:"购买数量（个）",
+    calc_total:"预估总价（USD）",calc_copy:"复制报价单",
+    calc_copied:"已复制",
+    tier_low:"0 – 99 Karma",tier_mid:"100 – 999 Karma",tier_high:"1000 – 100w Karma",
+    min5:"最低起订 5 个",min_single:"可单个购买",min_high:"高价值账号",
+    th_qty:"购买数量",th_price:"单价",per:"/个",
+    q_1:"1 个账号",q_single_hint:"单笔购买",
+    q_5_10:"5 – 10 个账号",q_10_20:"10 – 20 个账号",q_20_50:"20 – 50 个账号",
+    q_51_100:"51 – 100 个账号",q_101_200:"101 – 200 个账号",q_200_500:"200 – 500 个账号",
+    q_500:"500 个以上",q_custom_hint:"按需定制",custom_quote:"定制报价",
+    warranty_title:"质保保障",
+    warranty_intro:"若账号符合以下任一情况，我们提供<strong>免费换号服务</strong>：",
+    w1:"登录时账号已被封禁 / 锁定",w1_paren:"（若使用了劣质代理，账号也可能被锁）",
+    w2:"账号被删除",w3:"登录信息无法正常登录使用",
+    tips_title:"使用须知",
+    tips1:"大多数账号近期有养号记录，使用寿命更长。",
+    tips2:"请准备良好的 IP 配置 / 代理，以确保账号正常使用。",
+    contact:"Telegram",contact_sub:"· 联系咨询 / 下单",
+    foot_note:"价格单位均为美元 USD · 500 个以上及大批量订单请联系客服获取定制报价",
+    tg_title:"联系我们的 Telegram",tg_sub:"快速报价 · 下单 · 售后",
+    tg_cta:"打开 Telegram 联系我",
+    calc_warn_min:"该档位最低起订 {n} 个账号",
+    calc_detail_tier:"档位",calc_detail_qty:"数量",calc_detail_unit:"适用单价",
+    calc_rolledup:"（已按下一档计价）",calc_custom:"定制报价",
+    calc_custom_note:"500 个以上请私信获取专属价格",
+    quote_head:"Reddit 账号批发报价",
+    quote_tier:"档位：",quote_qty:"数量：",quote_unit:"单价：",quote_total:"总价：",
+    quote_custom:"预计：定制报价（500+ 请私信）",quote_tg:"Telegram：reddit188"
+  },
+  en:{
+    badge:"Bulk Wholesale · Price List",
+    title1:"Reddit",title2:"Accounts",title3:"Bulk Pricing",
+    subtitle:"The more you buy, the lower the unit price · For bulk buyers, small orders are priced higher",
+    f_age:"Account Age",f_age_v:"1 – 15 years",
+    f_region:"Region",f_region_v:"Global",
+    f_gender:"Gender",f_gender_v:"Mixed M/F",
+    f_email:"Email Status",f_email_v:"Bound · Changeable",
+    f_type:"Account Type",f_type_v:"3C · AI · Web3 · OFM",
+    cmp_title:"Why our accounts last longer?",cmp_sub:"Real delivery quality, compared · No more “zombie” or “instant-ban” accounts",
+    cmp_us:"Us",cmp_us_tag:"High pass rate",
+    cmp_us_1:"Every account is login-verified before shipping — 100% usable",
+    cmp_us_2:"Real warm-up activity in the last 30 days, higher survival",
+    cmp_us_3:"Email bound and changeable — no recovery risk",
+    cmp_us_4:"Banned / deleted / unusable? Free replacement",
+    cmp_them:"Other sellers",cmp_them_tag:"Typical",
+    cmp_them_1:"Bulk shipped unverified — you find the ban on arrival",
+    cmp_them_2:"Long-term zombie accounts, no recent activity",
+    cmp_them_3:"Email not bound, or can't be changed",
+    cmp_them_4:"When something breaks, replacements cost extra",
+    stat1_n:"100%",stat1_l:"Login-verified before shipping",
+    stat2_n:"30 days",stat2_l:"Recent warm-up activity",
+    stat3_n:"Free",stat3_l:"Replacement on ban / delete",
+    calc_title:"Quick Quote Calculator",
+    calc_sub:"Pick a Karma tier and quantity — the total is computed at the matching unit price",
+    calc_karma:"Karma Tier",calc_qty:"Quantity (units)",
+    calc_total:"Estimated Total (USD)",calc_copy:"Copy Quote",
+    calc_copied:"Copied",
+    tier_low:"0 – 99 Karma",tier_mid:"100 – 999 Karma",tier_high:"1000 – 1M Karma",
+    min5:"Min. order 5",min_single:"Single units available",min_high:"High-value accounts",
+    th_qty:"Quantity",th_price:"Unit Price",per:"/ea",
+    q_1:"1 account",q_single_hint:"Single purchase",
+    q_5_10:"5 – 10 accounts",q_10_20:"10 – 20 accounts",q_20_50:"20 – 50 accounts",
+    q_51_100:"51 – 100 accounts",q_101_200:"101 – 200 accounts",q_200_500:"200 – 500 accounts",
+    q_500:"500+ accounts",q_custom_hint:"Custom",custom_quote:"Custom quote",
+    warranty_title:"Warranty",
+    warranty_intro:"If an account matches any of the following, we provide <strong>free account replacement</strong>:",
+    w1:"Account is banned / locked at login",w1_paren:"(a poor proxy can also lock the account)",
+    w2:"Account deleted",w3:"Login credentials cannot be used",
+    tips_title:"Please Note",
+    tips1:"Most accounts have recent warm-up activity, so they last longer.",
+    tips2:"Prepare good IP setup / proxies to use the accounts properly.",
+    contact:"Telegram",contact_sub:"· Inquiries / Orders",
+    foot_note:"All prices in USD · For 500+ or large orders, contact us for a custom quote",
+    tg_title:"Our Telegram",tg_sub:"Fast quotes · Orders · Support",
+    tg_cta:"Open Telegram & contact me",
+    calc_warn_min:"This tier has a minimum order of {n} accounts",
+    calc_detail_tier:"Tier",calc_detail_qty:"Qty",calc_detail_unit:"Unit price",
+    calc_rolledup:"(billed at next tier)",calc_custom:"Custom quote",
+    calc_custom_note:"For 500+ please DM for a special price",
+    quote_head:"Reddit Accounts Wholesale Quote",
+    quote_tier:"Tier: ",quote_qty:"Qty: ",quote_unit:"Unit: ",quote_total:"Total: ",
+    quote_custom:"Estimate: custom quote (DM for 500+)",quote_tg:"Telegram: reddit188"
+  },
+  ru:{
+    badge:"Опт · Прайс-лист",
+    title1:"Reddit",title2:"Аккаунты",title3:"Оптовые цены",
+    subtitle:"Чем больше заказ, тем ниже цена · Для оптовых покупателей, мелкие заказы дороже",
+    f_age:"Возраст аккаунта",f_age_v:"1 – 15 лет",
+    f_region:"Регион",f_region_v:"Глобально",
+    f_gender:"Пол",f_gender_v:"Смешанный",
+    f_email:"E-mail",f_email_v:"Привязан · можно сменить",
+    f_type:"Тип аккаунта",f_type_v:"3C · Ai · Web3 · OFM",
+    cmp_title:"Почему наши аккаунты живут дольше?",cmp_sub:"Реальное качество при доставке · Никаких «зомби» и «мгновенных банов»",
+    cmp_us:"Мы",cmp_us_tag:"Высокий проход",
+    cmp_us_1:"Каждый аккаунт проверяется на вход перед отправкой — 100% рабочие",
+    cmp_us_2:"Реальная активность за последние 30 дней, выше выживаемость",
+    cmp_us_3:"E-mail привязан и можно сменить — без риска",
+    cmp_us_4:"Бан / удаление / не работает? Бесплатная замена",
+    cmp_them:"Другие продавцы",cmp_them_tag:"Типично",
+    cmp_them_1:"Отправляют без проверки — бан обнаруживаете при получении",
+    cmp_them_2:"Долгие «зомби», нет недавней активности",
+    cmp_them_3:"E-mail не привязан или нельзя сменить",
+    cmp_them_4:"При поломке замена стоит отдельно",
+    stat1_n:"100%",stat1_l:"Проверка входа перед отправкой",
+    stat2_n:"30 дней",stat2_l:"Недавняя активность",
+    stat3_n:"Бесплатно",stat3_l:"Замена при бане / удалении",
+    calc_title:"Калькулятор цены",
+    calc_sub:"Выберите уровень Karma и количество — итог рассчитается по соответствующей цене",
+    calc_karma:"Уровень Karma",calc_qty:"Количество (шт.)",
+    calc_total:"Итоговая цена (USD)",calc_copy:"Скопировать цитату",
+    calc_copied:"Скопировано",
+    tier_low:"0 – 99 Karma",tier_mid:"100 – 999 Karma",tier_high:"1000 – 1 млн Karma",
+    min5:"Мин. заказ 5",min_single:"Есть поштучно",min_high:"Аккаунты высокой ценности",
+    th_qty:"Количество",th_price:"Цена за шт.",per:"/шт",
+    q_1:"1 аккаунт",q_single_hint:"Единичная покупка",
+    q_5_10:"5 – 10 аккаунтов",q_10_20:"10 – 20 аккаунтов",q_20_50:"20 – 50 аккаунтов",
+    q_51_100:"51 – 100 аккаунтов",q_101_200:"101 – 200 аккаунтов",q_200_500:"200 – 500 аккаунтов",
+    q_500:"500+ аккаунтов",q_custom_hint:"По запросу",custom_quote:"Цена по запросу",
+    warranty_title:"Гарантия",
+    warranty_intro:"Если аккаунт попадает под любой из пунктов, мы предоставляем <strong>бесплатную замену</strong>:",
+    w1:"Аккаунт заблокирован / banned при входе",w1_paren:"(плохой прокси тоже может заблокировать аккаунт)",
+    w2:"Аккаунт удалён",w3:"Данные для входа не работают",
+    tips_title:"Обратите внимание",
+    tips1:"Большинство аккаунтов недавно прогревались, поэтому служат дольше.",
+    tips2:"Подготовьте хороший IP / прокси для корректного использования аккаунтов.",
+    contact:"Telegram",contact_sub:"· Запросы / Заказы",
+    foot_note:"Все цены в USD · Для 500+ и крупных заказов свяжитесь с нами для индивидуальной цены",
+    tg_title:"Наш Telegram",tg_sub:"Быстрые цитаты · Заказы · Поддержка",
+    tg_cta:"Открыть Telegram и написать",
+    calc_warn_min:"Минимальный заказ в этом тарифе — {n} аккаунтов",
+    calc_detail_tier:"Тариф",calc_detail_qty:"Кол-во",calc_detail_unit:"Цена за шт.",
+    calc_rolledup:"(по тарифу выше)",calc_custom:"Цена по запросу",
+    calc_custom_note:"Для 500+ напишите нам для спеццены",
+    quote_head:"Оптовая цитата: аккаунты Reddit",
+    quote_tier:"Тариф: ",quote_qty:"Кол-во: ",quote_unit:"Цена: ",quote_total:"Итог: ",
+    quote_custom:"Оценка: цена по запросу (напишите при 500+)",quote_tg:"Telegram: reddit188"
+  }
+};
+
+const LANGS = [
+  {code:"zh", label:"中文",   flag:"🇨🇳"},
+  {code:"en", label:"English",flag:"🇺🇸"},
+  {code:"ru", label:"Русский",flag:"🇷🇺"}
+];
+
+let curLang = "zh";
+const $ = id => document.getElementById(id);
+
+function applyLang(code){
+  curLang = code;
+  const dict = I18N[code];
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const k = el.getAttribute("data-i18n");
+    if(dict[k]!=null) el.innerHTML = dict[k];
+  });
+  document.documentElement.lang = code==="zh"?"zh-CN":code;
+  const meta = LANGS.find(l=>l.code===code);
+  $("langLabel").textContent = meta.label;
+  $("langFlag").textContent  = meta.flag;
+  document.querySelectorAll(".lang-menu button").forEach(b=>{
+    b.classList.toggle("active", b.dataset.code===code);
+  });
+  recalc();
+}
+
+function buildLangMenu(){
+  const menu = $("langMenu");
+  menu.innerHTML = "";
+  LANGS.forEach(l=>{
+    const b = document.createElement("button");
+    b.dataset.code = l.code;
+    b.innerHTML = `<span class="flag">${l.flag}</span><span>${l.label}</span>`;
+    b.addEventListener("click",()=>{
+      applyLang(l.code);
+      $("langSwitch").classList.remove("open");
+    });
+    menu.appendChild(b);
+  });
+}
+function initLangSwitcher(){
+  buildLangMenu();
+  const sw = $("langSwitch"), btn = $("langBtn");
+  btn.addEventListener("click",e=>{ e.stopPropagation(); sw.classList.toggle("open"); });
+  document.addEventListener("click",e=>{
+    if(!sw.contains(e.target)) sw.classList.remove("open");
+  });
+  applyLang("zh");
+}
+
+/* ================= Calculator ================= */
+const TIERS = {
+  low:{ minOrder:5,
+    ranges:[{min:1,max:1,price:null},{min:5,max:10,price:18},{min:11,max:20,price:16},
+      {min:21,max:50,price:14},{min:51,max:100,price:12},{min:101,max:200,price:10},
+      {min:201,max:500,price:8}] },
+  mid:{ minOrder:1,
+    ranges:[{min:1,max:1,price:30},{min:2,max:10,price:26},{min:11,max:20,price:24},
+      {min:21,max:50,price:22},{min:51,max:100,price:20},{min:101,max:200,price:18},
+      {min:201,max:500,price:16}] },
+  high:{ minOrder:1,
+    ranges:[{min:1,max:1,price:50},{min:2,max:10,price:47},{min:11,max:20,price:45},
+      {min:21,max:50,price:43},{min:51,max:100,price:41},{min:101,max:200,price:39},
+      {min:201,max:500,price:37}] }
+};
+const TIER_KEY = {low:"tier_low",mid:"tier_mid",high:"tier_high"};
+
+const karmaSel = $("calc-karma"), qtyInp = $("calc-qty");
+const resultBox = $("calc-result"), crTotal = $("cr-total"), crDetail = $("cr-detail"),
+      warnBox = $("calc-warn"), warnText = $("calc-warn-text"), copyBtn = $("calc-copy");
+let lastQuote = null;
+
+function resolveTier(key, qty){
+  const t = TIERS[key];
+  if(qty > 500) return {custom:true};
+  let hit = t.ranges.find(r=> qty>=r.min && qty<=r.max);
+  if(!hit){
+    const ups = t.ranges.filter(r=> r.min>qty && r.price!=null).sort((a,b)=>a.min-b.min);
+    hit = ups[0] || null;
+    if(hit) hit.rolledUp = true;
+  }
+  if(!hit) return {custom:false, error:true};
+  if(hit.price==null) return {belowMin:true};
+  return {unit:hit.price, rolledUp:!!hit.rolledUp};
+}
+function fmt(n){ return "$" + n.toLocaleString("en-US"); }
+function t(k, vars){
+  let s = I18N[curLang][k] || "";
+  if(vars) for(const key in vars) s = s.replace("{"+key+"}", vars[key]);
+  return s;
+}
+
+function recalc(){
+  const key = karmaSel.value;
+  const raw = parseInt(qtyInp.value,10);
+  clearActiveRow();
+  if(isNaN(raw) || raw<=0){ hideResult(); hideWarn(); return; }
+  const res = resolveTier(key, raw);
+  hideWarn();
+  if(res.custom){ showCustom(key, raw); highlightCustomRow(key); return; }
+  if(res.error || res.belowMin){ hideResult(); showWarn(t("calc_warn_min",{n:TIERS[key].minOrder})); return; }
+  const total = res.unit*raw;
+  lastQuote = {key, raw, unit:res.unit, total};
+  showResult({total, detail:[
+    {k:t("calc_detail_tier"), v:I18N[curLang][TIER_KEY[key]]},
+    {k:t("calc_detail_qty"), v:raw},
+    {k:t("calc_detail_unit"), v:fmt(res.unit)+" "+t("per")+(res.rolledUp?t("calc_rolledup"):"")}
+  ]});
+  highlightActiveRow(key, raw);
+}
+function showResult({total, detail}){
+  resultBox.hidden=false;
+  resultBox.classList.remove("pop"); void resultBox.offsetWidth; resultBox.classList.add("pop");
+  animateNumber(crTotal, total);
+  crDetail.innerHTML = detail.map(d=>`<span>${d.k}：<b>${d.v}</b></span>`).join("");
+}
+function animateNumber(el, to){
+  const from = el._val || 0, dur = 420, t0 = performance.now();
+  el._val = to;
+  function step(t){
+    const p = Math.min(1,(t-t0)/dur), e = 1-Math.pow(1-p,3);
+    el.textContent = fmt(Math.round(from+(to-from)*e));
+    if(p<1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+function showCustom(key, raw){
+  resultBox.hidden=false;
+  crTotal.textContent=t("calc_custom");
+  crDetail.innerHTML=`<span>${t("calc_detail_tier")}：<b>${I18N[curLang][TIER_KEY[key]]}</b></span>`+
+    `<span>${t("calc_detail_qty")}：<b>${raw}</b></span>`+
+    `<span style="color:var(--accent)">${t("calc_custom_note")}</span>`;
+  lastQuote={key,raw,custom:true};
+}
+function hideResult(){ resultBox.hidden=true; crTotal.textContent="—"; crDetail.innerHTML=""; }
+function showWarn(msg){ warnBox.classList.add("show"); warnText.textContent=msg; }
+function hideWarn(){ warnBox.classList.remove("show"); }
+
+function clearActiveRow(){ document.querySelectorAll("tbody tr.calc-active").forEach(tr=>tr.classList.remove("calc-active")); }
+function highlightActiveRow(key, qty){
+  document.querySelectorAll(`table[data-tier="${key}"] tbody tr[data-price]`).forEach(tr=>{
+    const mn=+tr.dataset.min, mx=+tr.dataset.max;
+    tr.classList.toggle("calc-active", qty>=mn && qty<=mx);
+  });
+}
+function highlightCustomRow(key){
+  const c=document.querySelector(`table[data-tier="${key}"] tr[data-custom]`);
+  if(c) c.classList.add("calc-active");
+}
+
+karmaSel.addEventListener("change",recalc);
+qtyInp.addEventListener("input",recalc);
+
+copyBtn.addEventListener("click",()=>{
+  if(!lastQuote) return;
+  const L = I18N[curLang];
+  let text;
+  if(lastQuote.custom){
+    text=[L.quote_head, L.quote_tier+L[TIER_KEY[lastQuote.key]], L.quote_qty+lastQuote.raw, L.quote_custom, L.quote_tg].join("\n");
+  }else{
+    text=[L.quote_head, L.quote_tier+L[TIER_KEY[lastQuote.key]], L.quote_qty+lastQuote.raw,
+      L.quote_unit+"$"+lastQuote.unit, L.quote_total+"$"+lastQuote.total.toLocaleString("en-US"), L.quote_tg].join("\n");
+  }
+  const done = ()=>{
+    const old=copyBtn.innerHTML;
+    copyBtn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> '+L.calc_copied;
+    setTimeout(()=>copyBtn.innerHTML=old, 1600);
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done).catch(done);
+  }else{
+    const ta=document.createElement("textarea"); ta.value=text; document.body.appendChild(ta);
+    ta.select(); try{document.execCommand("copy");}catch(e){} document.body.removeChild(ta); done();
+  }
+});
+
+/* ================= Telegram floating ball ================= */
+const tgFab = $("tgFab"), tgPop = $("tgPop");
+tgFab.addEventListener("click",e=>{ e.stopPropagation(); tgPop.classList.toggle("show"); });
+$("tgPopClose").addEventListener("click",()=>tgPop.classList.remove("show"));
+document.addEventListener("click",e=>{
+  if(tgPop.classList.contains("show") && !tgPop.contains(e.target) && e.target!==tgFab) tgPop.classList.remove("show");
+});
+
+/* ================= Theme toggle ================= */
+const themeBtn = $("themeBtn"), themeIcon = $("themeIcon");
+const SUN = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>';
+const MOON = '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>';
+function setTheme(mode){
+  document.documentElement.classList.toggle("light", mode==="light");
+  themeIcon.innerHTML = mode==="light" ? SUN : MOON;
+  try{ localStorage.setItem("theme", mode); }catch(e){}
+}
+(function initTheme(){
+  let saved=null; try{ saved=localStorage.getItem("theme"); }catch(e){}
+  const prefersLight = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
+  setTheme(saved || (prefersLight ? "light" : "dark"));
+})();
+themeBtn.addEventListener("click",()=>{
+  setTheme(document.documentElement.classList.contains("light") ? "dark" : "light");
+});
+
+/* ================= Back to top ================= */
+const toTop = $("toTop");
+window.addEventListener("scroll",()=>{
+  toTop.classList.toggle("show", window.scrollY > 500);
+},{passive:true});
+toTop.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
+
+/* ================= init ================= */
+initLangSwitcher();
+</script>
+</body>
+</html>
